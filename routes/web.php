@@ -3,24 +3,20 @@ use App\Http\Controllers\AdhUserAuthController;
 use App\Http\Controllers\PasswordChangeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/password/change', [PasswordChangeController::class, 'edit'])->name('password.change');
-//     Route::post('/password/change', [PasswordChangeController::class, 'update'])->name('password.change.update');
-// });
-// Route::post('/login', [LoginController::class, 'login'])->name('login');
-// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form');
+// Redirect root to login
+Route::get('/', function () {
+    return redirect('/login');
+});
 
+// Dashboard route (protected by auth middleware)
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
 
-
-
-
-
-
-
+// Authentication routes
 Route::get('/login', [AdhUserAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AdhUserAuthController::class, 'login']);
 Route::get('/password/update', [AdhUserAuthController::class, 'showPasswordForm'])->name('password.update.form');
