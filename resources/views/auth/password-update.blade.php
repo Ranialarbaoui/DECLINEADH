@@ -5,7 +5,19 @@
 
     <form method="POST" action="{{ route('password.update') }}">
         @csrf
-
+         <!-- name -->
+<div>
+    <x-input-label for="name" :value="__('Nom')" />
+    <x-text-input id="name" name="name" type="text" required autofocus autocomplete="name" />
+    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+</div>
+ <!-- email -->
+  <div class="mt-4">
+    <x-input-label for="email" :value="__('Email')" />
+    <x-text-input id="email" name="email" type="email" required autocomplete="email" />
+    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+</div>
+<!-- password    -->
         <div>
             <x-input-label for="new_password" :value="'Nouveau mot de passe'" />
             <x-text-input id="new_password" name="new_password" type="password" required />

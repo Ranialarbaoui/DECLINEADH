@@ -26,21 +26,12 @@ class AdhUserAuthController extends Controller
             'id' => 'required|string',
             'password' => 'required|string',
         ]);
+        $user = AdhUser::find($request->id);
 
-        // $user = AdhUser::find($request->id);
-
-    //   if (!$user || !Hash::check($request->password, $user->password)) {
-    //         return back()->withErrors(['id' => 'ID introuvable.']);
-    //     } 
-     
-
-        // Auth::login($user);
-
- $user = AdhUser::where('id', $request->id)->first();
- dd($user);
-  if (!$user) {
-        return back()->withErrors(['id' => 'Utilisateur introuvable.']);
-    }
+      if (!$user || !Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['id' => 'ID introuvable.']);
+        } 
+        Auth::login($user);
 
 
         // Si mot de passe par défaut, rediriger vers page changement
@@ -61,13 +52,11 @@ class AdhUserAuthController extends Controller
         $request->validate([
             'new_password' => 'required|string|confirmed|min:6',
         ]);
-
         $user = Auth::user();
         $user->password = Hash::make($request->new_password);
       AdhUser::create([
-    'id' => $request->id,
-   
-    'email' => 'exemple@email.com',
+     'id' => $request->id,
+     'email' => 'exemple@email.com',
      'password' => bcrypt('caarama'),
 ]);
 
