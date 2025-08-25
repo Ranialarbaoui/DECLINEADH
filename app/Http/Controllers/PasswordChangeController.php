@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdhUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -13,17 +14,17 @@ class PasswordChangeController extends Controller
         return view('auth.password-change');
     }
 
-    public function update(Request $request)
-    {
-        $request->validate([
-            'current_password' => ['required', 'current_password'], // valide le mot de passe actuel
-            'password' => ['required', 'confirmed', Password::defaults()],
-        ]);
+   public function updatePassword(Request $request)
+   {
+      $user = AdhUser::find($request->id);
 
-        $user = $request->user();
-        $user->password = Hash::make($request->password);
-        $user->save();
+         if (!$user) {
+           return back()->withErrors(['id' => 'Utilisateur non trouvé.']);
+          }
 
-        return redirect()->route('login')->with('status', 'Mot de passe changé avec succès.');
-    }
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return back()->with('success', 'Mot de passe mis à jour avec succès.');
+ }
 }

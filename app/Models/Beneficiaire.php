@@ -51,4 +51,10 @@ class Beneficiaire extends Model
 		'src',
 		'adherent_id'
 	];
+
+    public function adherent()
+{
+    return $this->hasMany(Beneficiaire::class, 'adherent_id', 'id');
+    }
+
 }

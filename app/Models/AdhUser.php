@@ -107,4 +107,12 @@ class AdhUser extends Authenticatable
 	{
 		return 'remember_token';
 	}
+
+
+
+public function adherent()
+{
+    return $this->hasOne(Adherent::class, 'code_adh', 'code_adh');
+}	
+
 }

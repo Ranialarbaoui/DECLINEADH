@@ -10,15 +10,98 @@ use Illuminate\Support\Facades\Hash;
 class AdhUserAuthController extends Controller
 {
 
-//      public function __construct()
-// {
-//     $this->middleware('auth')->only(['show']);
-// }
 
-    public function showLoginForm()
-    {
+
+    public function showLoginForm(){
         return view('auth.adh-login');
+        }
+    
+    public function index(){
+        $users = AdhUser::all();
+        return view('adh_user_auth.index', compact('users'));
+        }
+    public function create(){
+        return view('adh_user_auth.create');
+        }
+    
+    public function store(Request $request){
+        $request->validate([
+            'id' => 'required|string|unique:adh_user_auths,id',
+            'nom' => 'required|string',
+            'email' => 'required|email|unique:adh_user_auths,email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        AdhUser::create([
+            'id' => $request->id,
+            'nom' => $request->nom,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('adh-user-auth.index')->with('success', 'Utilisateur créé avec succès.');
+        }
+    public function show($id){
+        $user = AdhUser::findOrFail($id);
+        return view('adh_user_auth.show', compact('user'));
+        }
+    public function edit($id){
+        $user = AdhUser::findOrFail($id);
+        return view('adh_user_auth.edit', compact('user'));
+        }
+    public function showForm(){
+         $user = Auth::user(); // ou AdhUser::find($id); selon la méthode d’authentification
+         $beneficiaires = $user->beneficiaires;
+
+        return view('dashboard', compact('beneficiaires'));
+        }
+
+
+
+
+    // Met à jour un utilisateur
+    public function update(Request $request, $id){
+        $user = AdhUser::findOrFail($id);
+        $request->validate([
+            'nom' => 'required|string',
+            'email' => 'required|email|unique:adh_user_auths,email,' . $id . ',id',
+        ]);
+
+        $user->nom = $request->nom;
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('adh-user-auth.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
+// Supprime un utilisateur
+    public function destroy($id)
+    {
+        AdhUser::destroy($id);
+        return redirect()->route('adh-user-auth.index')->with('success', 'Utilisateur supprimé avec succès.');
+    }
+
+
+public function choisirType(Request $request)
+{
+    // Sauvegarde du type choisi dans la session
+    return redirect()->back()->with('type', $request->input('type'));
+}
+
+
+
+
+
+
+
+
+
+
+
 
     public function login(Request $request)
     {
@@ -43,6 +126,7 @@ class AdhUserAuthController extends Controller
         // Rediriger vers le tableau de bord après connexion réussie
         return redirect()->intended('/dashboard')->with('success', 'Connexion réussie!');
     }
+    
 
     public function showPasswordForm()
     {
@@ -57,7 +141,7 @@ class AdhUserAuthController extends Controller
         
         $user = Auth::user();
         $user->password = Hash::make($request->new_password);
-        $user->save();
+        // $user->save();
 
         return redirect('/dashboard')->with('status', 'Mot de passe modifié avec succès.');
     }
