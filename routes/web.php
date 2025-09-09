@@ -1,11 +1,14 @@
 <?php
 
-use App\Http\Controllers\AdherentController;
+use App\Http\Controllers\AdhUserController;
 use App\Http\Controllers\AdhUserAuthController;
 use App\Http\Controllers\PasswordChangeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BeneficiaireController;
+use App\Http\Controllers\ActeMedicalController;
+use App\Http\Controllers\SinistreController;
+use App\Models\Sinistre;
 
 // Redirect root to login
 Route::get('/', function () {
@@ -26,5 +29,10 @@ Route::post('/logout', [AdhUserAuthController::class, 'logout'])->name('logout')
 
 
 Route::get('/dashboard', [BeneficiaireController::class, 'showForm'])->middleware('auth');
+Route::resource('sinistres', SinistreController::class);
 
-Route::post('/choisir-type', [AdhUserAuthController::class, 'choisirType'])->name('choisir.type');
+Route::get('/adhuser/store', [AdhUserController::class, 'store'])->name('adhuser.store');
+
+Route::get('/dashbord', [ActeMedicalController::class, 'showDashbord'])->name('dashbord');
+Route::get('/dashbord/actes/{type}', [ActeMedicalController::class, 'getActesByType'])->name('dashbord.actes');
+

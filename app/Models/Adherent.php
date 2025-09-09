@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
 use Carbon\Carbon;
@@ -50,13 +54,4 @@ class Adherent extends Model
 		'intermediaire_id',
 		'police_id'
 	];
-
-
-  public function beneficiaires()
-    {
-        return $this->hasMany(Beneficiaire::class, 'adherent_id', 'code_adh');
-    }
-
 }
-
-

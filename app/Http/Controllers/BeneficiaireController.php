@@ -14,21 +14,13 @@ class BeneficiaireController extends Controller
 {
     public function showForm()
     {  
-
-      $beneficiaires = Beneficiaire::all(); //************************** parfait
-
-// $beneficiaires = Beneficiaire::with('adherent_id','code_adh')->get();
-// $codAdh = Auth::user()->code_adh;
-// $codAdh = Auth::user()->cod_adh; // récupérer le cod_adh de l'adhérent connecté
-
-
-// dd($codAdh, Beneficiaire::first());
-// dd(Auth::user()->cod_adh);
-// dd(Auth::user());
-// $beneficiaires = DB::table('beneficiaires as b')
-//     ->join('adherents as a', 'b.adherent_id', '=', 'a.code_adh')
-//     ->where('a.code_adh', $codAdh)
-//     ->get();
+  
+      // $beneficiaires = Beneficiaire::all();
+  $numimma =(Auth::user()->id);
+  $adherents = Adherent::where('numeimma', $numimma)->get();
+  $codeAdh = $adherents->first()->code_adh ?? null;
+ $beneficiaires = Beneficiaire::where('adherent_id',$codeAdh )->get();
+//  dd($beneficiaires);
   return view('dashboard', compact('beneficiaires'));
    
     }

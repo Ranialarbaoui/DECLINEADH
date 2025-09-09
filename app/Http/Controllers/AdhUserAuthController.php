@@ -14,12 +14,16 @@ class AdhUserAuthController extends Controller
 
     public function showLoginForm(){
         return view('auth.adh-login');
-        }
+    }
     
     public function index(){
         $users = AdhUser::all();
+
+        $users = AdhUser::with('adherent')->get(); //Hadi taa lyoum
+        
         return view('adh_user_auth.index', compact('users'));
-        }
+    }
+    
     public function create(){
         return view('adh_user_auth.create');
         }
@@ -133,18 +137,25 @@ public function choisirType(Request $request)
         return view('auth.password-update');
     }
 
-    public function updatePassword(Request $request)
+   public function updatePassword(Request $request)
     {
         $request->validate([
             'new_password' => 'required|string|confirmed|min:6',
         ]);
-        
-        $user = Auth::user();
+
+        $authUser = Auth::user(); // Utilisateur connecté (objet Auth)
+        $user = \App\Models\AdhUser::find($authUser->id); // Récupère le vrai modèle Eloquent
+
+        if (!$user) {
+            return back()->withErrors(['user' => 'Utilisateur introuvable.']);
+        }
+
         $user->password = Hash::make($request->new_password);
-        // $user->save();
+        $user->save();
 
         return redirect('/dashboard')->with('status', 'Mot de passe modifié avec succès.');
     }
+
 
     public function logout(Request $request)
     {
