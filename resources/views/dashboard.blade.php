@@ -8,23 +8,41 @@
 </head>
 <body class="bg-gray-100 flex">
 
-    <!-- Sidebar gauche -->
-    <aside class="w-64 bg-white shadow-lg fixed top-0 bottom-0 left-0 flex flex-col">
-        <div class="p-6 border-b flex items-center justify-center">
-            <img src="/logo.png" alt="Logo" class="h-12 w-auto">
-        </div>
-        <nav class="flex-1 p-6 space-y-4 overflow-y-auto">
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-200 transition">Déclaration</a>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-200 transition">Suivi de l'état</a>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-200 transition">Mon compte</a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="w-full text-left px-4 py-2 rounded hover:bg-gray-200 transition">
-                    Déconnexion
-                </button>
-            </form>
-        </nav>
-    </aside>
+<aside class="w-64 bg-white shadow-lg fixed top-0 bottom-0 left-0 flex flex-col">
+
+    <div class="p-6 border-b flex items-center justify-center">
+        <img src="/logo.png" alt="Logo" class="h-12 w-auto">
+    </div>
+
+    <nav class="flex-1 p-6 space-y-4 overflow-y-auto">
+        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zM5 19V5h14v14H5z"/>
+                <path d="M7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
+            </svg>
+            Déclaration
+        </a>
+
+        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+            </svg>
+            Suivi de l'état
+        </a>
+        <hr>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="flex items-center w-full text-left px-4 py-2 rounded hover:bg-gray-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+                </svg>
+                Déconnexion
+            </button>
+        </form>
+    </nav>
+</aside>
+
+
 
     <!-- Contenu principal -->
     <main class="flex-1 ml-64 pt-16 p-6">
@@ -34,14 +52,24 @@
                 <div class="flex justify-between h-16 items-center">
                     <h1 class="text-xl font-semibold text-gray-900">Gestion D'adhérents</h1>
                     <div class="flex items-center space-x-4">
-                        <span class="text-gray-700">Bonjour, {{ Auth::user()->nom }}</span>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition">
-                                Déconnexion
-                            </button>
-                        </form>
-                    </div>
+    <!-- Message Bonjour -->
+    <span class="text-gray-700">Bonjour, {{ Auth::user()->nom }}</span>
+
+    <a href="" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-1.5 transition flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+    </a>
+
+    <form method="POST" action="{{ route('logout') }}" class="inline">
+        @csrf
+        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition">
+            Déconnexion
+        </button>
+    </form>
+</div>
+
+
                 </div>
             </div>
         </nav>
