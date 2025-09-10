@@ -61,12 +61,7 @@
         </svg>
     </a>
 
-    <form method="POST" action="{{ route('logout') }}" class="inline">
-        @csrf
-        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition">
-            Déconnexion
-        </button>
-    </form>
+    
 </div>
 
 
